@@ -55,7 +55,7 @@ async def on_message(message):
     CHANNEL_ID = [675965627873361930,
                   607213936982622229]
     if message.channel.id in CHANNEL_ID: #IDが登録されているチャンネルにメッセージが送信されたら
-        def anther_ch(ch):
+        def another_ch(ch):
             CHANNEL_ID = [675965627873361930,607213936982622229]
             ch_1 = client.get_channel(CHANNEL_ID[0])
             ch_2 = client.get_channel(CHANNEL_ID[1])
@@ -65,7 +65,7 @@ async def on_message(message):
                 return ch_1
             else:
                 return None
-        channel = anther_ch(message.channel)
+        channel = another_ch(message.channel)
         if channel == None:
             return
         ch_webhooks = await channel.webhooks()
