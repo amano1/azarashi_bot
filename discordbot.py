@@ -53,30 +53,37 @@ async def on_message(message):
         return
     g_webhook_name = "雑談用" # 2チャンネル間のWebhook名
     CHANNEL_ID = [675965627873361930,
-                  607213936982622229]
+                  607213936982622229,
+                  674983698080202797]
     if message.channel.id in CHANNEL_ID: #IDが登録されているチャンネルにメッセージが送信されたら
         def another_ch(ch):
-            CHANNEL_ID = [675965627873361930,607213936982622229]
+            CHANNEL_ID = [
+                675965627873361930,
+                607213936982622229,
+                674983698080202797]
             ch_1 = client.get_channel(CHANNEL_ID[0])
             ch_2 = client.get_channel(CHANNEL_ID[1])
+            ch_3 = client.get_channel(CHANNEL_ID[2])
+            ch_list = []
             if ch.id == ch_1.id:
-                return ch_2
+                ch_list.append[ch_2]
+                ch_list.append[ch_3]
             elif ch.id == ch_2.id:
-                return ch_1
-            else:
-                return None
-        channel = another_ch(message.channel)
-        if channel == None:
-            return
-        ch_webhooks = await channel.webhooks()
-        webhook = discord.utils.get(ch_webhooks, name=g_webhook_name) 
-        if webhook is None: # 雑談用ってwebhookがなかったら無視
-            await channel.create_webhook(name = "雑談用")
-            await channel.send("Webhook作ったよ")
-        await webhook.send(
-            content=message.content,
-            username=message.author.name,
-            avatar_url=message.author.avatar_url_as(format="png")
-        )   
+                ch_list.append[ch_1]
+                ch_list.append[ch_3]
+            return ch_list
+        for channel in another_ch(message.channel):
+            if channel == None:
+                continue
+            ch_webhooks = await channel.webhooks()
+            webhook = discord.utils.get(ch_webhooks, name=g_webhook_name) 
+            if webhook is None: # 雑談用ってwebhookがなかったら無視
+                await channel.create_webhook(name = "雑談用")
+                await channel.send("Webhook作ったよ")
+            await webhook.send(
+                content=message.content,
+                username=message.author.name,
+                avatar_url=message.author.avatar_url_as(format="png")
+            )   
 
 client.run(TOKEN)
