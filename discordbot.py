@@ -64,7 +64,7 @@ async def on_message(message):
             ]
             ch_list
             for ch_id in CHANNEL_ID:
-                if message.channel.id != ch_id
+                if message.channel.id != ch_id:
                     ch = client.get_channel(ch_id)
                     ch_list.append(ch)
             return ch_list
