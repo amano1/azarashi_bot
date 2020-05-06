@@ -71,6 +71,9 @@ async def on_message(message):
             elif ch.id == ch_2.id:
                 ch_list.append(ch_1)
                 ch_list.append(ch_3)
+            elif ch.id == ch_3.id:
+                ch_list.append(ch_2)
+                ch_list.append(ch_3)
             return ch_list
         for channel in another_ch(message.channel):
             if channel == None:
