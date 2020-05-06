@@ -60,20 +60,13 @@ async def on_message(message):
             CHANNEL_ID = [
                 675965627873361930,
                 607213936982622229,
-                674983698080202797]
-            ch_1 = client.get_channel(CHANNEL_ID[0])
-            ch_2 = client.get_channel(CHANNEL_ID[1])
-            ch_3 = client.get_channel(CHANNEL_ID[2])
-            ch_list = []
-            if ch.id == ch_1.id:
-                ch_list.append(ch_2)
-                ch_list.append(ch_3)
-            elif ch.id == ch_2.id:
-                ch_list.append(ch_1)
-                ch_list.append(ch_3)
-            elif ch.id == ch_3.id:
-                ch_list.append(ch_2)
-                ch_list.append(ch_3)
+                674983698080202797
+            ]
+            ch_list
+            for ch_id in CHANNEL_ID:
+                if message.channel.id != ch_id
+                    ch = client.get_channel(ch_id)
+                    ch_list.append(ch)
             return ch_list
         for channel in another_ch(message.channel):
             if channel == None:
