@@ -46,40 +46,27 @@ async def loop():
     pass
 @client.event
 async def on_message(message):
-    try:
-        if message.author.bot: 
-            return 
-        g_webhook_name = "雑談用" # 2チャンネル間のWebhook名
-        CHANNEL_ID = [675965627873361930,607213936982622229]
-        if message.channel.id in CHANNEL_ID: #名前が雑談から始まるチャンネルにメッセージが送信されたら
-            ch_1 = client.get_channel(CHANNEL_ID[0])
-            ch_2 = client.get_channel(CHANNEL_ID[1])
-            global_channels = [ch_1, ch_2] 
-            for channel in global_channels:
-                await message.delete()
-                ch_webhooks = await channel.webhooks() 
-                webhook = discord.utils.get(ch_webhooks, name=g_webhook_name) 
-                if webhook is None: # 雑談用ってwebhookがなかったら 無視
-                    await channel.create_webhook(name = "雑談用")
-                    await channel.send("Webhook作ったよ")
-                    continue 
-                await webhook.send(
-                    content=message.content,
-                    username=message.author.name,
-                    avatar_url=message.author.avatar_url_as(format="png")
-                )   
-    except Exception as error:
-        ERROR_TYPE = str(type(error))
-        ERROR = str(error)
-        embed = discord.Embed(
-            title = ERROR_TYPE,
-            description = ERROR,
-            color = discord.Color.red())
-        embed.add_field(
-            name = "エラーが出たメッセージ",
-            value = message.content)
-        embed.timestamp = datetime.now(JST)
-        await message.channel.send(embed = embed)
-    else:
-        pass
+
+    if message.author.bot: 
+        return 
+    g_webhook_name = "雑談用" # 2チャンネル間のWebhook名
+    CHANNEL_ID = [675965627873361930,607213936982622229]
+    if message.channel.id in CHANNEL_ID: #名前が雑談から始まるチャンネルにメッセージが送信されたら
+        ch_1 = client.get_channel(CHANNEL_ID[0])
+        ch_2 = client.get_channel(CHANNEL_ID[1])
+        global_channels = [ch_1, ch_2] 
+        for channel in global_channels:
+            await message.delete()
+            ch_webhooks = await channel.webhooks() 
+            webhook = discord.utils.get(ch_webhooks, name=g_webhook_name) 
+            if webhook is None: # 雑談用ってwebhookがなかったら 無視
+                await channel.create_webhook(name = "雑談用")
+                await channel.send("Webhook作ったよ")
+                continue 
+            await webhook.send(
+                content=message.content,
+                username=message.author.name,
+                avatar_url=message.author.avatar_url_as(format="png")
+            )   
+
 client.run(TOKEN)
