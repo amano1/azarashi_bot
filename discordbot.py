@@ -62,7 +62,7 @@ async def on_message(message):
                 607213936982622229,
                 674983698080202797
             ]
-            ch_list
+            ch_list = []
             for ch_id in CHANNEL_ID:
                 if message.channel.id != ch_id:
                     ch = client.get_channel(ch_id)
