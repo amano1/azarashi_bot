@@ -49,9 +49,9 @@ async def on_message(message):
 
     if message.author.bot: 
         return 
-    g_webhook_name = "雑談用" # 2チャンネル間のWebhook名
+    g_webhook_name = "zatsudan" # 2チャンネル間のWebhook名
     CHANNEL_ID = [675965627873361930,607213936982622229]
-    if message.channel.id in CHANNEL_ID: #名前が雑談から始まるチャンネルにメッセージが送信されたら
+    if message.channel.id in CHANNEL_ID: #IDが登録されているチャンネルにメッセージが送信されたら
         ch_1 = client.get_channel(CHANNEL_ID[0])
         ch_2 = client.get_channel(CHANNEL_ID[1])
         global_channels = [ch_1, ch_2] 
@@ -59,8 +59,8 @@ async def on_message(message):
             await message.delete()
             ch_webhooks = await channel.webhooks() 
             webhook = discord.utils.get(ch_webhooks, name=g_webhook_name) 
-            if webhook is None: # 雑談用ってwebhookがなかったら 無視
-                await channel.create_webhook(name = "雑談用")
+            if webhook is None: # 雑談用ってwebhookがなかったら無視
+                await channel.create_webhook(name = "zatsudan")
                 await channel.send("Webhook作ったよ")
                 continue 
             await webhook.send(
