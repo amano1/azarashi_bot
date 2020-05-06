@@ -63,7 +63,6 @@ async def on_message(message):
             if webhook is None: # 雑談用ってwebhookがなかったら 無視
                 await channel.create_webhook(name = "雑談用")
                 await channel.send("Webhook作ったよ")
-                continue 
             await webhook.send(
                 content=message.content,
                 username=message.author.name,
