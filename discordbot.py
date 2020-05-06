@@ -56,7 +56,7 @@ async def on_message(message):
         ch_1 = client.get_channel(CHANNEL_ID[0])
         ch_2 = client.get_channel(CHANNEL_ID[1])
         global_channels = [ch_1,ch_2] 
-        channel = global_channels.remove(message.channel)
+        channel = (global_channels.remove(message.channel))[0]
         if len(channel) == 1:
             ch_webhooks = await channel.webhooks() 
             webhook = discord.utils.get(ch_webhooks, name=g_webhook_name) 
