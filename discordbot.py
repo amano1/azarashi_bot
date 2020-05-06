@@ -47,7 +47,7 @@ async def loop():
 @client.event
 async def on_message(message):
 
-    if message.author.id == 707066931945144381: 
+    if message.author.bot: 
         return 
     if message.embeds:
         return
