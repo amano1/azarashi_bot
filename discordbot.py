@@ -55,7 +55,6 @@ async def on_message(message):
     CHANNEL_ID = [675965627873361930,
                   607213936982622229]
     if message.channel.id in CHANNEL_ID: #IDが登録されているチャンネルにメッセージが送信されたら
-        global_channels = [ch_1,ch_2] 
         def anther_ch(ch):
             CHANNEL_ID = [675965627873361930,607213936982622229]
             ch_1 = client.get_channel(CHANNEL_ID[0])
