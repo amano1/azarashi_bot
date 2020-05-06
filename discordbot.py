@@ -47,26 +47,37 @@ async def loop():
 @client.event
 async def on_message(message):
 
-    if message.author.bot: 
+    if message.author == client.user: 
         return 
+    if message.embeds:
+        return
     g_webhook_name = "雑談用" # 2チャンネル間のWebhook名
     CHANNEL_ID = [675965627873361930,
                   607213936982622229]
     if message.channel.id in CHANNEL_ID: #IDが登録されているチャンネルにメッセージが送信されたら
-        ch_1 = client.get_channel(CHANNEL_ID[0])
-        ch_2 = client.get_channel(CHANNEL_ID[1])
         global_channels = [ch_1,ch_2] 
-        channel = (global_channels.remove(message.channel))[0]
-        if len(channel) == 1:
-            ch_webhooks = await channel.webhooks() 
-            webhook = discord.utils.get(ch_webhooks, name=g_webhook_name) 
-            if webhook is None: # 雑談用ってwebhookがなかったら 無視
-                await channel.create_webhook(name = "雑談用")
-                await channel.send("Webhook作ったよ")
-            await webhook.send(
-                content=message.content,
-                username=message.author.name,
-                avatar_url=message.author.avatar_url_as(format="png")
-            )   
+        def anther_ch(ch):
+            CHANNEL_ID = [675965627873361930,607213936982622229]
+            ch_1 = client.get_channel(CHANNEL_ID[0])
+            ch_2 = client.get_channel(CHANNEL_ID[1])
+            if ch.id == ch_1.id:
+                return ch_2
+            elif ch.id == ch_2.id:
+                return ch_1
+            else:
+                return None
+        channel = anther_ch(message.channel)
+        if channel == None:
+            return
+        ch_webhooks = await channel.webhooks()
+        webhook = discord.utils.get(ch_webhooks, name=g_webhook_name) 
+        if webhook is None: # 雑談用ってwebhookがなかったら無視
+            await channel.create_webhook(name = "雑談用")
+            await channel.send("Webhook作ったよ")
+        await webhook.send(
+            content=message.content,
+            username=message.author.name,
+            avatar_url=message.author.avatar_url_as(format="png")
+        )   
 
 client.run(TOKEN)
