@@ -30,7 +30,7 @@ async def on_ready():
     ready_ch = client.get_channel(ready_chid)
     dateTime = datetime.now(JST)
     embed = discord.Embed(title = "起動ログ")
-    embed/timestamp = datetime.now(JST)
+    embed.timestamp = datetime.now(JST)
     await ready_ch.send(embed = embed) #起動ログを指定のチャンネルに送信
     await client.change_presence(activity=discord.Game(name=f"起動完了！"))
     loop.start()
