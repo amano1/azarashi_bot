@@ -76,10 +76,18 @@ async def on_message(message):
             if webhook is None: # 雑談用ってwebhookがなかったら無視
                 await channel.create_webhook(name = "雑談用")
                 await channel.send("Webhook作ったよ")
-            await webhook.send(
-                content=message.content,
-                username=message.author.name,
-                avatar_url=message.author.avatar_url_as(format="png")
-            )   
+            if message.attachments:
+                await webhook.send(
+                    content=message.content,
+                    file=discord.File(fp=message.attachments[0].url)
+                    username=message.author.name,
+                    avatar_url=message.author.avatar_url_as(format="png")
+                )
+            else:
+                await webhook.send(
+                    content=message.content,
+                    username=message.author.name,
+                    avatar_url=message.author.avatar_url_as(format="png")
+                )
 
 client.run(TOKEN)
