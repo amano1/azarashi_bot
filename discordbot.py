@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 import sys
 import discord
+import aiohttp
 import random
 import asyncio
 import time
@@ -77,12 +78,17 @@ async def on_message(message):
                 await channel.create_webhook(name = "雑談用")
                 await channel.send("Webhook作ったよ")
             if message.attachments:
-                await webhook.send(
-                    content=message.content,
-                    file=discord.File(fp=message.attachments[0].url),
-                    username=message.author.name,
-                    avatar_url=message.author.avatar_url_as(format="png")
-                )
+                async with aiohttp.ClientSession() as session:
+                    async with session.get(my_url) as resp:
+                        if resp.status != 200:
+                            return await channel.send('Could not download file...')
+                        data = io.BytesIO(await resp.read())
+                        await webhook.send(
+                            content=message.content,
+                            file=discord.File(data, "global.png"),
+                            username=message.author.name,
+                            avatar_url=message.author.avatar_url_as(format="png")
+                        )
             else:
                 await webhook.send(
                     content=message.content,
