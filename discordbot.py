@@ -79,7 +79,7 @@ async def on_message(message):
             if message.attachments:
                 await webhook.send(
                     content=message.content,
-                    file=discord.File(fp=message.attachments[0].url)
+                    file=discord.File(fp=message.attachments[0].url),
                     username=message.author.name,
                     avatar_url=message.author.avatar_url_as(format="png")
                 )
