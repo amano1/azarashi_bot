@@ -82,7 +82,7 @@ async def on_message(message):
                 img_embed.set_image(url=message.attachments[0].url)
                 await webhook.send(
                     content=message.content,
-                    embed=imd_embed,
+                    embed=img_embed,
                     username=message.author.name,
                     avatar_url=message.author.avatar_url_as(format="png")
                )
