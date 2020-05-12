@@ -79,7 +79,7 @@ async def on_message(message):
                 await channel.send("Webhook作ったよ")
             if message.attachments:
                 async with aiohttp.ClientSession() as session:
-                    async with session.get(my_url) as resp:
+                    async with session.get(message.attachments[0].url) as resp:
                         if resp.status != 200:
                             return await channel.send('Could not download file...')
                         data = io.BytesIO(await resp.read())
