@@ -48,7 +48,7 @@ async def on_ready():
     # グローバルチャンネルのIDのリストを生成
     path = "data/global_channel/id_data.txt"
     with open(path, mode = "r") as file:
-       ch.id_list = [i.replace("\n", "") for i in file.readlines()] 
+        ch.id_list = [int(i.replace("\n", "")) for i in file.readlines()] 
     print(ch.id_list)
     await client.change_presence(activity=discord.Game(name=f"起動完了！"))
 
