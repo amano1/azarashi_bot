@@ -142,7 +142,7 @@ async def on_message(message):
 
             if webhook is None: # 雑談用ってwebhookがなかったら無視
 
-                try：
+                try:
                     await channel.create_webhook(name = "雑談用")
 
                 except:
