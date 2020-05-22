@@ -24,17 +24,34 @@ JST = timezone(timedelta(hours=+9), 'JST') # タイムゾーンの生成
 client = discord.Client() 
 TOKEN = os.environ['DISCORD_BOT_TOKEN'] # botのtoken(heroku参照)
 
+class Data:
+    id_list = []
+
+ch = Data()
+
 @client.event
 async def on_ready():
+
+    # 起動後の初期処理の実行を開始する合図としてステータスを変更
     await client.change_presence(activity=discord.Game(name="起動中( ˘ω˘ ) ｽﾔｧ…"))
+
+    # 使い勝手がいいので起動時の時刻を日本時間で取得
+    dateTime = datetime.now(JST)
+
+    # 指定チャンネルに起動ログ（embed）を送信
     ready_chid = 675965627873361930
     ready_ch = client.get_channel(ready_chid)
-    dateTime = datetime.now(JST)
     embed = discord.Embed(title = "起動ログ")
     embed.timestamp = datetime.now(JST)
-    await ready_ch.send(embed = embed) #起動ログを指定のチャンネルに送信
+    await ready_ch.send(embed = embed)
+
+    # グローバルチャンネルのIDのリストを生成
+    path = "data/global_channel/id_data.txt"
+    with open(path, mode = "r") as file:
+       ch.id_list = [i.replace("\n", "") for i in file.readlines()] 
+    print(ch.id_list)
     await client.change_presence(activity=discord.Game(name=f"起動完了！"))
-    loop.start()
+
     
 @client.event
 async def on_member_join(member):
@@ -53,18 +70,10 @@ async def on_message(message):
     if message.embeds:
         return
     g_webhook_name = "雑談用" # 2チャンネル間のWebhook名
-    CHANNEL_ID = [675965627873361930,
-                  607213936982622229,
-                  674983698080202797]
     if message.channel.id in CHANNEL_ID: #IDが登録されているチャンネルにメッセージが送信されたら
         def another_ch(ch):
-            CHANNEL_ID = [
-                675965627873361930,
-                607213936982622229,
-                674983698080202797
-            ]
             ch_list = []
-            for ch_id in CHANNEL_ID:
+            for ch_id in ch.id_list:
                 if message.channel.id != ch_id:
                     ch = client.get_channel(ch_id)
                     ch_list.append(ch)
