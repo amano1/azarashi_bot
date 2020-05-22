@@ -158,7 +158,7 @@ async def on_message(message):
                         file.write(f"\n{channel.id}")
                     gch.id_list.append(channel.id)
 
-                    for id in ch.id_list:
+                    for id in gch.id_list:
                         ch = client.get_channel(id)
                         await ch.send(f"{channel.name}をグローバルチャンネルに追加したよ！")
                 
