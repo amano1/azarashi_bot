@@ -144,7 +144,7 @@ async def on_message(message):
             ch_webhooks = await channel.webhooks()
             webhook = discord.utils.get(ch_webhooks, name=g_webhook_name)
 
-            if webhook is None: # 雑談用ってwebhookがなかったら無視
+            if webhook is None:
 
                 try:
                     await channel.create_webhook(name = "雑談用")
@@ -155,12 +155,18 @@ async def on_message(message):
                 else:
                     path = "data/global_channel/id_data.txt"
                     with open(path, mode = "a") as file:
-                        file.write(f"\n{channel.id}")
-                    gch.id_list.append(channel.id)
+                        try:
+                            file.write(f"\n{channel.id}")
+                        except:
+                            print("error")
+                        else:
+                            gch.id_list.append(channel.id)
 
                     for id in gch.id_list:
                         ch = client.get_channel(id)
                         await ch.send(f"{channel.name}をグローバルチャンネルに追加したよ！")
+                return
+            await message.channel.send("登録済だよ？")
                 
 
 client.run(TOKEN)
