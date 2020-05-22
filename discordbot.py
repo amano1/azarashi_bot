@@ -27,7 +27,7 @@ TOKEN = os.environ['DISCORD_BOT_TOKEN'] # botのtoken(heroku参照)
 class Data:
     id_list = []
 
-ch = Data()
+gch = Data()
 
 @client.event
 async def on_ready():
@@ -48,7 +48,7 @@ async def on_ready():
     # グローバルチャンネルのIDのリストを生成
     path = "data/global_channel/id_data.txt"
     with open(path, mode = "r") as file:
-        ch.id_list = [int(i.replace("\n", "")) for i in file.readlines()] 
+        gch.id_list = [int(i.replace("\n", "")) for i in file.readlines()] 
     print(ch.id_list)
     await client.change_presence(activity=discord.Game(name=f"起動完了！"))
 
@@ -70,10 +70,10 @@ async def on_message(message):
     if message.embeds:
         return
     g_webhook_name = "雑談用" # 2チャンネル間のWebhook名
-    if message.channel.id in ch.id_list: #IDが登録されているチャンネルにメッセージが送信されたら
+    if message.channel.id in gch.id_list: #IDが登録されているチャンネルにメッセージが送信されたら
         def another_ch(ch):
             ch_list = []
-            for ch_id in ch.id_list:
+            for ch_id in gch.id_list:
                 if message.channel.id != ch_id:
                     ch = client.get_channel(ch_id)
                     ch_list.append(ch)
