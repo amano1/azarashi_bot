@@ -49,7 +49,7 @@ async def on_ready():
     path = "data/global_channel/id_data.txt"
     with open(path, mode = "r") as file:
         gch.id_list = [int(i.replace("\n", "")) for i in file.readlines()] 
-    print(ch.id_list)
+    print(gch.id_list)
     await client.change_presence(activity=discord.Game(name=f"起動完了！"))
 
     
