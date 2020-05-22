@@ -136,7 +136,7 @@ async def on_message(message):
                 await message.channel.send("おっと！\n君は管理者権限を持ってないから追加は出来ないよ。")
                 return
 
-            if message.channel.id in ch.id_list:
+            if message.channel.id in gch.id_list:
                 await message.channel.send("登録済だよ？")
                 return
 
@@ -156,7 +156,7 @@ async def on_message(message):
                     path = "data/global_channel/id_data.txt"
                     with open(path, mode = "a") as file:
                         file.write(f"\n{channel.id}")
-                    ch.id_list.append(channel.id)
+                    gch.id_list.append(channel.id)
 
                     for id in ch.id_list:
                         ch = client.get_channel(id)
