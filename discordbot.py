@@ -70,7 +70,7 @@ async def on_message(message):
     if message.embeds:
         return
     g_webhook_name = "雑談用" # 2チャンネル間のWebhook名
-    if message.channel.id in CHANNEL_ID: #IDが登録されているチャンネルにメッセージが送信されたら
+    if message.channel.id in ch.id_list: #IDが登録されているチャンネルにメッセージが送信されたら
         def another_ch(ch):
             ch_list = []
             for ch_id in ch.id_list:
